@@ -11,7 +11,8 @@ Overview:
 ---------
 Pinger allows you to ping different ip addresses by entering the IP addresses seperated by a comma
 or by entering the name of a text file containing the ip addresses when prompted.
-Script gives the user 3 attempts at performing the ping and then quits
+It works with hostnames as well as long as your DNS is able to resolve the address. 
+Script gives the user 3 attempts at performing the ping test and then quits
 
 using text file:
 ---------------
