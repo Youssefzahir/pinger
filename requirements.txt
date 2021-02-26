@@ -1,2 +1,2 @@
-PyInputPlus==0.2.8
+PyInputPlus==0.2.12
 
