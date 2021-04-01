@@ -14,7 +14,7 @@ or by entering the name of a text file containing the ip addresses when prompted
 It works with hostnames as well as long as your DNS is able to resolve the address. 
 This script gives the user 3 attempts at performing the ping test and then quits
 
-using text file:
+Using text file:
 ---------------
 The text file format is to have one ip address per line.
 text file must be placed in same directory as script.
