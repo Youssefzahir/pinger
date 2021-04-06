@@ -8,16 +8,16 @@ Used to ping different ip addresses from CLI in one line.
 It accepts command line arguments to use a file containing the IP addresses to ping.
 If pinger is run without commandline argument it will default to presenting prompts to guide user.
 
-  usage: pinger.py [-h] [-f FILE] [address [address ...]]
+    usage: pinger.py [-h] [-f FILE] [address [address ...]]
 
-  Pings IP addresses entered or from file
+    Pings IP addresses entered or from file
 
-  positional arguments:
-    address               address(s) (default: None)
+    positional arguments:
+      address               address(s) (default: None)
 
-  optional arguments:
-    -h, --help            show this help message and exit
-    -f FILE, --file FILE  Input file (default: None)
+    optional arguments:
+      -h, --help            show this help message and exit
+      -f FILE, --file FILE  Input file (default: None)
 
 
 Overview:
