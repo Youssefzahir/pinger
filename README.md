@@ -7,6 +7,7 @@ Use:
 Used to ping different ip addresses from CLI in one line.
 It accepts command line arguments to use a file containing the IP addresses to ping.
 If pinger is run without commandline argument it will default to presenting prompts to guide user.
+Script is able to adapt to OS for; windows, linux, and MAC
 
     usage: pinger.py [-h] [-f FILE] [address [address ...]]
 
@@ -33,5 +34,4 @@ The text file format is to have one ip address per line.
 text file must be placed in same directory as script.
 
 
-NB* If you continue to get "is not reachable" for reachabe addresses or the script gets stuck with the cursor blinking
-check to make sure that you have uncommented the correct "myresponse" variable definition 
+NB* script is able to adapt to OS for; windows, linux, and MAC. If you to get "is not reachable" for reachabe addresses or the script gets stuck with the cursor blinking,  you will need to define the "myresponse" variable that suits your OS 
