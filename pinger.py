@@ -1,30 +1,41 @@
 #!/usr/bin/env python
-# source venv/bin/activate
+
 import os
 import subprocess
 import pyinputplus as pyip
-
-print('#' * 36)
-print('#' + ((' ') * 7) + '-- Running Pinger --' + ((' ') * 7) + '#')
-print('#' * 36)
+import argparse
 
 
+# --------------------------------------------------
 ''' You can substitute the ping response string for the different OS's e.g. windows, Mac, and Linux'''
 
-#myresponse = ['1 received', '-c']       # for linux response
-myresponse = ['Received = 1', '-n']     #for windows response
+myresponse = ['1 received', '-c']       # for linux response
+#myresponse = ['Received = 1', '-n']     #for windows response
 #myresponse = ['1 packets received', '-c']    #for mac response
 
 proceed = 0
 
+def get_args():
+    """get command-line arguments"""
 
-def From_file_2_list(filename):
-    # goes through file, creates list and dumps complete list
-    with open(filename, 'r') as ftext:
-        flist = ftext.readlines()
-        mylist = [i[:-1] for i in flist]
-    print('Loaded File to List.')
-    return mylist
+    parser = argparse.ArgumentParser(
+        description='Pings IP addresses entered or from file',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+
+    parser.add_argument('address',
+                        help='address(s)',
+                        metavar='address',
+                        nargs='*',
+                        type=str)
+
+    parser.add_argument('-f',
+                        '--file',
+                        help='Input file',
+                        metavar='FILE',
+                        type=argparse.FileType('r')
+                        )
+
+    return parser.parse_args()
 
 
 def ping_os(addy, os_response=myresponse):
@@ -39,34 +50,61 @@ def ping_os(addy, os_response=myresponse):
         print('There was a problem: %s' % (exc))
     return
 
+
+def From_file_2_list(filename):
+    # goes through file, creates list and dumps complete list
+    with open(filename, 'r') as ftext:
+        flist = ftext.readlines()
+        mylist = [i[:-1] for i in flist]
+    print('Loaded File to List.')
+    return mylist
 # -------------------------------------------------------------------
-while proceed < 3:
-    try:
-        ask_to_use_file = pyip.inputYesNo(
-            'Do you want to use a file ? [Y or N]: ')
+if __name__ == '__main__':
 
-        if ask_to_use_file == 'yes':
-            pingfile = pyip.inputStr('Enter filename: ')
-            pinglist_file = From_file_2_list(pingfile)
-            print(f'Performing ping from file: {pingfile}')
+    args = get_args()
 
-            for i in pinglist_file:
-                ping_os(i)
-        else:
-            pingaddrs = pyip.inputStr(
-                'Enter addresses seperated by comma "," : ')
-            pinglist_args = pingaddrs.split(',')
-            for i in pinglist_args:
-                # split method below used to take only address and no further options
-                ping_os(i.split()[0], myresponse)
-    except Exception as exc:
-        print('There was a problem: %s' % (exc))
+    if args.address:
+        for i in args.address:
+            ping_os(i)
 
-    ask_to_continue = pyip.inputYesNo('Do you want retry ? [Y or N]: ')
-    if ask_to_continue == 'yes':
-        proceed += 1
-    else:
-        break
+    if args.file:
+        for j in args.file:
+            addr = j.rstrip()
+            ping_os(addr)
 
-print('Maximum number of retries reached') if proceed == 3 else print('Done. ')
-input('Press Enter to Close: ')
+    if not (args.file  or args.address ):
+        print('#' * 36)
+        print('#' + ((' ') * 7) + '-- Running Pinger --' + ((' ') * 7) + '#')
+        print('#' * 36)
+
+        while proceed < 3:
+            try:
+                ask_to_use_file = pyip.inputYesNo(
+                    'Do you want to use a file ? [Y or N]: ')
+
+                if ask_to_use_file == 'yes':
+                    pingfile = pyip.inputStr('Enter filename: ')
+                    pinglist_file = From_file_2_list(pingfile)
+                    print(f'Performing ping from file: {pingfile}')
+
+                    for i in pinglist_file:
+                        ping_os(i)
+                else:
+                    pingaddrs = pyip.inputStr(
+                        'Enter addresses seperated by comma "," : ')
+                    pinglist_args = pingaddrs.split(',')
+                    for i in pinglist_args:
+                        # split method below used to take only address and no further options
+                        ping_os(i.split()[0], myresponse)
+            except Exception as exc:
+                print('There was a problem: %s' % (exc))
+
+            ask_to_continue = pyip.inputYesNo('Do you want retry ? [Y or N]: ')
+            if ask_to_continue == 'yes':
+                proceed += 1
+            else:
+                break
+
+    print('Maximum number of retries reached') if proceed == 3 else print('Done. ')
+    input('Press Enter to Close: ')
+        
