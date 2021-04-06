@@ -4,8 +4,21 @@ Pinger "A Python ping script"
 
 Use:
 ----------
-I was looking for a way to ping a number of different ip addresses and get a response to wether the addresses were up or not.
-So I came up with Pinger a python script that is able to achieve this.
+Used to ping different ip addresses from cli in one line.
+It accepts command line arguments to use a file containing IP addresses to ping.
+If pinger is run without command argument it will default to presenting prompts to guide user.
+
+  usage: pinger.py [-h] [-f FILE] [address [address ...]]
+
+  Pings IP addresses entered or from file
+
+  positional arguments:
+    address               address(s) (default: None)
+
+  optional arguments:
+    -h, --help            show this help message and exit
+    -f FILE, --file FILE  Input file (default: None)
+
 
 Overview:
 ---------
