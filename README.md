@@ -34,4 +34,4 @@ text file must be placed in same directory as script.
 
 
 NB* If you continue to get "is not reachable" for reachabe addresses or the script gets stuck with the cursor blinking
-check to make sure that you have uncommented the correct myresponse variable definition 
+check to make sure that you have uncommented the correct "myresponse" variable definition 
