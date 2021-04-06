@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os
+import sys
 import subprocess
 import pyinputplus as pyip
 import argparse
@@ -9,9 +10,9 @@ import argparse
 # --------------------------------------------------
 ''' You can substitute the ping response string for the different OS's e.g. windows, Mac, and Linux'''
 
-myresponse = ['1 received', '-c']       # for linux response
-#myresponse = ['Received = 1', '-n']     #for windows response
-#myresponse = ['1 packets received', '-c']    #for mac response
+linux = ['1 received', '-c']       # for linux response
+win = ['Received = 1', '-n']     #for windows response
+mac = ['1 packets received', '-c']    #for mac response
 
 proceed = 0
 
@@ -30,7 +31,7 @@ def get_args():
 
     parser.add_argument('-f',
                         '--file',
-                        help='Input file',
+                        help='Input file - listing addresses to ping',
                         metavar='FILE',
                         type=argparse.FileType('r')
                         )
@@ -38,7 +39,7 @@ def get_args():
     return parser.parse_args()
 
 
-def ping_os(addy, os_response=myresponse):
+def ping_os(addy, os_response):
     try:
         pingout = subprocess.run(
             ['ping', os_response[1], '1', f'{addy}'], stdout=subprocess.PIPE, text=True)
@@ -63,14 +64,23 @@ if __name__ == '__main__':
 
     args = get_args()
 
+
+    if 'linux' in sys.platform:
+        myresponse = linux    
+    elif 'darwin' in sys.platform:
+        myresponse = mac
+    else:
+        myresponse = win
+
+    
     if args.address:
         for i in args.address:
-            ping_os(i)
+            ping_os(i, myresponse)
 
     if args.file:
         for j in args.file:
             addr = j.rstrip()
-            ping_os(addr)
+            ping_os(addr, myresponse)
 
     if not (args.file  or args.address ):
         print('#' * 36)
@@ -82,13 +92,14 @@ if __name__ == '__main__':
                 ask_to_use_file = pyip.inputYesNo(
                     'Do you want to use a file ? [Y or N]: ')
 
+
                 if ask_to_use_file == 'yes':
                     pingfile = pyip.inputStr('Enter filename: ')
                     pinglist_file = From_file_2_list(pingfile)
                     print(f'Performing ping from file: {pingfile}')
 
                     for i in pinglist_file:
-                        ping_os(i)
+                        ping_os(i, myresponse)
                 else:
                     pingaddrs = pyip.inputStr(
                         'Enter addresses seperated by comma "," : ')
