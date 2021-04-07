@@ -1,5 +1,5 @@
 # pinger
-Pinger "A Python ping script"
+"A Python ping script"
 
 
 Use:
