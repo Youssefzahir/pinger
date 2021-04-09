@@ -8,8 +8,8 @@ import argparse
 
 
 # --------------------------------------------------
-''' You can substitute the ping response string for the different OS's e.g. windows, Mac, and Linux'''
 
+#ping response string for the different OS's e.g. windows, Mac, and Linux'''
 linux = ['1 received', '-c']       # for linux response
 win = ['Received = 1', '-n']     #for windows response
 mac = ['1 packets received', '-c']    #for mac response
